@@ -1,4 +1,4 @@
-package com.hsc.onlinestudy;
+package com.hsc.OnlineStudy;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
