@@ -7,6 +7,4 @@
   </parent>
   <groupId>com.hsc.entities</groupId>
   <artifactId>OnlineStudyEntities</artifactId>
-  <name>OnlineStudyEntities</name>
-  <description>This project consists of entities</description>
 </project>
