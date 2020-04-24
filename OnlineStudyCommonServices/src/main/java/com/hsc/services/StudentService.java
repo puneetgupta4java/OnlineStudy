@@ -1,8 +1,8 @@
 package com.hsc.services;
 
-import org.springframework.stereotype.Service;
+import com.hsc.dto.StudentDTO;
 
-@Service
 public interface StudentService {
 
+	public String addstudent(StudentDTO student);
 }

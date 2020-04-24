@@ -1,16 +1,6 @@
-package com.hsc.entities;
+package com.hsc.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name="student")
-public class Student {
-
-	@Id
-	@Column(name = "studentId", unique = true, nullable = false)
+public class StudentDTO {
 	private Integer studentId;
 	private String studentName;
 	private Integer studentAge;
@@ -18,11 +8,7 @@ public class Student {
 	private String studentUsername;
 	private String studentPassword;
 
-	public Student() {
-		
-	}
-	
-	public Student(Integer studentId, String studentName, Integer studentAge, String studentEmail, String studentUsername,
+	public StudentDTO(Integer studentId, String studentName, Integer studentAge, String studentEmail, String studentUsername,
 			String studentPassword) {
 		super();
 		this.studentId = studentId;
@@ -102,7 +88,7 @@ public class Student {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Student other = (Student) obj;
+		StudentDTO other = (StudentDTO) obj;
 		if (studentAge != other.studentAge)
 			return false;
 		if (studentEmail == null) {
@@ -132,8 +118,9 @@ public class Student {
 
 	@Override
 	public String toString() {
-		return "Student [studentId=" + studentId + ", studentName=" + studentName + ", studentAge=" + studentAge
+		return "StudentDTO [studentId=" + studentId + ", studentName=" + studentName + ", studentAge=" + studentAge
 				+ ", studentEmail=" + studentEmail + ", studentUsername=" + studentUsername + ", studentPassword="
 				+ studentPassword + "]";
 	}
+
 }
