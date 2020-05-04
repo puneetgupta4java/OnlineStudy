@@ -1,6 +1,8 @@
 package com.adda.service;
 
-import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.adda.entity.User;
 
@@ -10,5 +12,5 @@ public interface UserService {
  User createUser(User newUser);
  void removeUser(User user);
  User updateUser(User user);
- List<User> getAllUsers();
+ Page<User> findAll(String property, String accState, Pageable pageable);
 }

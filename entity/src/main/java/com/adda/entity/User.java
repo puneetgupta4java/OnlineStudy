@@ -31,9 +31,7 @@ import lombok.Data;
 @Data
 @ApiModel(value = "User", description = "Request Body consists of Data of User")
 public class User implements UserDetails, Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -56,10 +54,12 @@ public class User implements UserDetails, Serializable {
 	private String password;
 
 	@Column(name = "account_state")
+	@ApiModelProperty(hidden = true,value = "The accountstate of the user", example = "ACTIVE")
 	private String accountState = "ACTIVE"; // Default:Active, Inactive and Deleted
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Builder.Default
+	@ApiModelProperty(hidden = true,value = "The roles of the user", example = "ROLE_USER")
 	private List<String> roles = new ArrayList<>();
 
 	public void setRoles(List<String> roles) {
@@ -116,31 +116,37 @@ public class User implements UserDetails, Serializable {
 	}
 
 	@Override
+	@ApiModelProperty(hidden = true,value = "The authorities of the user", example = "USER")
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 	}
 
 	@Override
+	@ApiModelProperty(hidden = true,value = "The username of the user", example = "adda")
 	public String getUsername() {
 		return this.name;
 	}
 
 	@Override
+	@ApiModelProperty(hidden = true,value = "The account not expired of the user", example = "true")
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
 	@Override
+	@ApiModelProperty(hidden = true,value = "The account not locked of the user", example = "true")
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
 	@Override
+	@ApiModelProperty(hidden = true,value = "The account credentials not expired of the user", example = "true")
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
 	@Override
+	@ApiModelProperty(hidden = true,value = "The account is not enabled of the user", example = "true")
 	public boolean isEnabled() {
 		return true;
 	}

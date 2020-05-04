@@ -15,8 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import com.adda.exception.InvalidTokenException;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -79,8 +77,8 @@ public class JwtTokenProvider {
 
 			return true;
 		} catch (JwtException | IllegalArgumentException e) {
-			throw new InvalidTokenException("Expired or invalid JWT token");
+			return false;
 		}
 	}
-
+	
 }

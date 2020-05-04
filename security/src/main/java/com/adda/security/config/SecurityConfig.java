@@ -27,7 +27,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.httpBasic().disable().csrf().disable().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
 				.antMatchers("/adda-admin/createUser").permitAll().antMatchers("/h2/**").permitAll()
-				.antMatchers("/h2/*").permitAll().antMatchers("/adda-admin/login").permitAll().anyRequest()
-				.authenticated().and().apply(new WebSecurityConfig(jwtTokenProvider));
+				.antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
+				.antMatchers("/adda-admin/login").permitAll().anyRequest().authenticated().and()
+				.apply(new WebSecurityConfig(jwtTokenProvider));
 	}
 }
