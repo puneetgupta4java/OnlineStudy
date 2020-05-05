@@ -30,5 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
 				.antMatchers("/adda-admin/login").permitAll().anyRequest().authenticated().and()
 				.apply(new WebSecurityConfig(jwtTokenProvider));
+		http.csrf().disable();
+		http.headers().disable();
 	}
 }

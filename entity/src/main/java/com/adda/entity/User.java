@@ -23,7 +23,6 @@ import com.sun.istack.NotNull;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
 import lombok.Data;
 
 @Entity
@@ -31,7 +30,7 @@ import lombok.Data;
 @Data
 @ApiModel(value = "User", description = "Request Body consists of Data of User")
 public class User implements UserDetails, Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -58,7 +57,6 @@ public class User implements UserDetails, Serializable {
 	private String accountState = "ACTIVE"; // Default:Active, Inactive and Deleted
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	@Builder.Default
 	@ApiModelProperty(hidden = true,value = "The roles of the user", example = "ROLE_USER")
 	private List<String> roles = new ArrayList<>();
 

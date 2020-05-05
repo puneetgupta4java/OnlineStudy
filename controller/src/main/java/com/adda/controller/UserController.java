@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.adda.beans.Student;
 import com.adda.entity.User;
 import com.adda.security.token.JwtTokenProvider;
 import com.adda.service.UserService;
@@ -149,5 +150,13 @@ public class UserController {
     	}
     		
     }
+	
+	@ApiOperation(value = "/getStudent", notes = "This API is used to get the data of existing users", response = ResponseEntity.class, protocols = "http,https")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Student data sent sucessfully"),
+			@ApiResponse(code = 202, message = "Accepted") })
+	 @RequestMapping(value="/getStudent", method = RequestMethod.GET, headers = "Accept=application/json")
+	public Student getStudent(@RequestParam(value="studentId", defaultValue="1") int studentId) {
+		return userService.getStudent(Long.valueOf(studentId));
+	}
 
 }
