@@ -29,6 +29,8 @@ import com.adda.security.token.JwtTokenProvider;
 import com.adda.service.UserService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -92,6 +94,8 @@ public class UserController {
 	@RequestMapping(value = "/removeUser", method = RequestMethod.DELETE, headers = "Accept=application/json")
 	@ApiOperation(value = "/removeUser", notes = "This API is used to delete user", response = ResponseEntity.class, protocols = "http,https")
 	@ApiResponses({ @ApiResponse(code = 200, message = "User deleted sucessfully") })
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "Authorization", value = "Authorization token", required = true, dataType = "string", paramType = "header") })
 	public ResponseEntity<ServiceResponse> deleteUser(@RequestBody User user) {
 		userService.removeUser(user);
 		return new ResponseEntity<ServiceResponse>(ServiceResponse.createSuccessResponse("Removed user Successfully!"),
@@ -102,6 +106,8 @@ public class UserController {
 	@ApiOperation(value = "/updateUser", notes = "This API is used to update an existing user", response = ResponseEntity.class, protocols = "http,https")
 	@ApiResponses({ @ApiResponse(code = 200, message = "User data updated sucessfully"),
 			@ApiResponse(code = 400, message = "Bad Request") })
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "Authorization", value = "Authorization token", required = true, dataType = "string", paramType = "header") })
 	public ResponseEntity<ServiceResponse> updateUser(@RequestBody User user) {
 		User oldUser = userService.updateUser(user);
 		ServiceResponse response = null;
@@ -121,41 +127,44 @@ public class UserController {
 	@ApiOperation(value = "/getAllUsers", notes = "This API is used to get the data of existing users", response = ResponseEntity.class, protocols = "http,https")
 	@ApiResponses({ @ApiResponse(code = 200, message = "User data sent sucessfully"),
 			@ApiResponse(code = 202, message = "Accepted") })
-	 @RequestMapping(value="/getAllUsers", method = RequestMethod.GET, headers = "Accept=application/json")
-    public ResponseEntity<ServiceResponse> getAllUsers(@RequestParam("property") Optional<String> property,
-    												   @RequestParam("accState") Optional<String> accState,
-    		                                           @RequestParam(value="page", defaultValue="0") int page,
-    		                                           @RequestParam(value="size", defaultValue="3") int size,
-    		                                           @RequestParam(value="orderBy", defaultValue="ASC") String orderBy,
-    		                                           @RequestParam(value="sortBy", defaultValue="name") String sortBy) throws Exception {
-    	Page<User> users = userService.findAll(property.orElse("_"), accState.orElse("_"), PageRequest.of(page, size,
-    			           Sort.by("asc".equalsIgnoreCase(orderBy)?Sort.Direction.ASC:Sort.Direction.DESC, sortBy)));
-    	ServiceResponse response=null;
-    	List<Object> resultSet=null;
-    	if(users.isEmpty())
-    		return new ResponseEntity<ServiceResponse>(
-					ServiceResponse.createFailureResponse("No records"),
+	@RequestMapping(value = "/getAllUsers", method = RequestMethod.GET, headers = "Accept=application/json")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "Authorization", value = "Authorization token", required = true, dataType = "string", paramType = "header") })
+	public ResponseEntity<ServiceResponse> getAllUsers(@RequestParam("property") Optional<String> property,
+			@RequestParam("accState") Optional<String> accState,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "3") int size,
+			@RequestParam(value = "orderBy", defaultValue = "ASC") String orderBy,
+			@RequestParam(value = "sortBy", defaultValue = "name") String sortBy) throws Exception {
+		Page<User> users = userService.findAll(property.orElse("_"), accState.orElse("_"), PageRequest.of(page, size,
+				Sort.by("asc".equalsIgnoreCase(orderBy) ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy)));
+		ServiceResponse response = null;
+		List<Object> resultSet = null;
+		if (users.isEmpty())
+			return new ResponseEntity<ServiceResponse>(ServiceResponse.createFailureResponse("No records"),
 					HttpStatus.ACCEPTED);
-    	else {
-    		response=new ServiceResponse();
-    		resultSet=new ArrayList<>();
-    		resultSet.add(users.getNumber());
-    		resultSet.add(users.getNumberOfElements());
-    		resultSet.add(users.getContent());
-    		resultSet.add(users.getTotalPages());
-    		resultSet.add(users.getSize());
-    		response.setResultSet(resultSet);
-    		response.setMessage("Fetch records successfully");
-    		return new ResponseEntity<ServiceResponse>(response, HttpStatus.OK);
-    	}
-    		
-    }
-	
+		else {
+			response = new ServiceResponse();
+			resultSet = new ArrayList<>();
+			resultSet.add(users.getNumber());
+			resultSet.add(users.getNumberOfElements());
+			resultSet.add(users.getContent());
+			resultSet.add(users.getTotalPages());
+			resultSet.add(users.getSize());
+			response.setResultSet(resultSet);
+			response.setMessage("Fetch records successfully");
+			return new ResponseEntity<ServiceResponse>(response, HttpStatus.OK);
+		}
+
+	}
+
 	@ApiOperation(value = "/getStudent", notes = "This API is used to get the data of existing users", response = ResponseEntity.class, protocols = "http,https")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Student data sent sucessfully"),
 			@ApiResponse(code = 202, message = "Accepted") })
-	 @RequestMapping(value="/getStudent", method = RequestMethod.GET, headers = "Accept=application/json")
-	public Student getStudent(@RequestParam(value="studentId", defaultValue="1") int studentId) {
+	@RequestMapping(value = "/getStudent", method = RequestMethod.GET, headers = "Accept=application/json")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "Authorization", value = "Authorization token", required = true, dataType = "string", paramType = "header") })
+	public Student getStudent(@RequestParam(value = "studentId", defaultValue = "1") int studentId) {
 		return userService.getStudent(Long.valueOf(studentId));
 	}
 

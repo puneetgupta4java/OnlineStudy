@@ -38,7 +38,7 @@ public class ServiceImpl implements UserService {
 			return user;
 		else
 			throw new InvalidUserException("Either Email or password is incorrect");
-	} 
+	}
 
 	@Override
 	public User createUser(User user) {
@@ -63,13 +63,20 @@ public class ServiceImpl implements UserService {
 	@Override
 	public User updateUser(User user) {
 		User oldUser = userRepository.findById(user.getId()).orElse(null);
+		Student student;
 		if (oldUser != null) {
 			User eUser = userRepository.findByEmail(user.getEmail());
 			if (eUser != null) {
 				if (eUser.getId().equals(oldUser.getId())) {
+					student = studentRepository.findById(user.getId()).get();
+					student.setUser(user);
+					studentRepository.save(student);
 					return userRepository.save(user);
 				}
 			} else {
+				student = studentRepository.findById(user.getId()).get();
+				student.setUser(user);
+				studentRepository.save(student);
 				return userRepository.save(user);
 			}
 
